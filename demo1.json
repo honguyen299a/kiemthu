@@ -1,0 +1,216 @@
+{
+  "info": {
+    "_postman_id": "58a92df9-0c8f-4b03-9307-9cfa3088cf9b",
+    "name": "demo1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51841592"
+  },
+  "item": [
+    {
+      "name": "create hotel",
+      "item": [
+        {
+          "name": "post hotles",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"Hotels_Names\",\"Fl9C\")\r",
+                  "pm.collectionVariables.set(\"Price\",\"100\")"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Trang thai pass\" ,function(){\r",
+                  "    pm.response.to.have.status(200)\r",
+                  "})\r",
+                  "\r",
+                  "const getResponse=pm.response.json()\r",
+                  "console.log(getResponse)\r",
+                  "\r",
+                  "const Name_before=getResponse.name\r",
+                  "const Price_before=getResponse.price_per_night\r",
+                  "\r",
+                  "const Name_after=pm.variables.get(\"Hotels_Names\")\r",
+                  "const Price_after=pm.variables.get(\"Price\")\r",
+                  "\r",
+                  "pm.test(\"Name dung\",function(){\r",
+                  "    pm.expect(Name_before).to.eql(Name_after)\r",
+                  "})\r",
+                  "pm.test(\"Gia dung\",function(){\r",
+                  "    pm.expect(Price_before.toString()).to.eql(Price_after)\r",
+                  "})\r",
+                  "\r",
+                  "const ID=getResponse.id\r",
+                  "pm.collectionVariables.set(\"IDHotels\",ID)"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc5MTIzOTU4LCJleHAiOjE3NzkxMjc1NTh9.QzPrPYPp66oUky49YYVtCFAM_RokqwE8gktEcHJM3v0",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\r\n        \r\n        \"name\": \"{{Hotels_Names}}\",\r\n        \"price_per_night\": \"{{Price}}\",\r\n        \"location\": \"Quy 488 Nhon\",\r\n        \"rating\": 4.5\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/hotels",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "hotels"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all hotels",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\" ,function(){\r",
+                  "    pm.response.to.have.status(200)\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Verify hotels\",function(){\r",
+                  "    const id= pm.variables.get('IDHotels')\r",
+                  "    pm.expect(pm.response.text()).to.include(id)\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/hotels",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "hotels"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get detail hotels",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Trang thai pass\" ,function(){\r",
+                  "    pm.response.to.have.status(200)\r",
+                  "})\r",
+                  "\r",
+                  "const getResponse=pm.response.json()\r",
+                  "console.log(getResponse)\r",
+                  "\r",
+                  "const Name_before=getResponse.name\r",
+                  "const Price_before=getResponse.price_per_night\r",
+                  "\r",
+                  "const Name_after=pm.variables.get(\"Hotels_Names\")\r",
+                  "const Price_after=pm.variables.get(\"Price\")\r",
+                  "\r",
+                  "pm.test(\"Name dung\",function(){\r",
+                  "    pm.expect(Name_before).to.eql(Name_after)\r",
+                  "})\r",
+                  "pm.test(\"Gia dung\",function(){\r",
+                  "    pm.expect(Price_before.toString()).to.eql(Price_after)\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/hotels/{{IDHotels}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "hotels",
+                "{{IDHotels}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "Hotels_Names",
+      "value": ""
+    },
+    {
+      "key": "Price",
+      "value": ""
+    },
+    {
+      "key": "IDHotels",
+      "value": ""
+    }
+  ]
+}
